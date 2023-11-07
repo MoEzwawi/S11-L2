@@ -24,12 +24,12 @@ const ListOfFavourites = () => {
             {favs.length ? (
                 favs.map((fav, i) => {
                     return (
-                        <Row className="align-items-center" key={i}>
+                        <Row className="align-items-center my-3" key={i}>
                             <Col xs={7}>
-                                <Link to={`/${fav}`}><p>{fav}</p></Link>
+                                <Link to={`/${fav}`}><p className="m-0">{fav}</p></Link>
                             </Col>
                             <Col xs={2}>
-                                <Button className="btn btn-danger rounded-pill mt-3" onClick={() => {
+                                <Button className="btn btn-danger rounded-pill m-0" onClick={() => {
                                     dispatch(removeFromFavs(fav))
                                 }}>Remove</Button>
                             </Col>

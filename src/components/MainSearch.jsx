@@ -9,9 +9,11 @@ import { fetchJobs } from "../redux/actions";
 
 const MainSearch = () => {
   const [query, setQuery] = useState("");
+  const [isBeginning, setIsBeginning] = useState(true);
   const dispatch = useDispatch()
   const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
   console.log(jobsFromReduxStore)
+  console.log('query', query)
   const handleChange = e => {
     setQuery(e.target.value);
   };
@@ -19,6 +21,7 @@ const MainSearch = () => {
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(fetchJobs(query + "&limit=20"))
+    setIsBeginning(false)
   };
 
   return (
@@ -38,7 +41,7 @@ const MainSearch = () => {
           </Form>
         </Col>
         <Col xs={10} className="mx-auto mb-5">
-          {jobsFromReduxStore.map(jobData => (
+          {!isBeginning && jobsFromReduxStore.map(jobData => (
             <Job key={jobData._id} data={jobData} />
           ))}
         </Col>
