@@ -1,3 +1,5 @@
+import { FETCH_JOBS } from "../actions"
+
 const initialState = {
     jobsList: []
 }
@@ -7,7 +9,7 @@ const initialState = {
 
 const fetchReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'FETCH_JOBS':
+        case FETCH_JOBS:
             return {
                 ...state,
                 jobsList: action.payload

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import Job from "./Job";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ const MainSearch = () => {
   const dispatch = useDispatch()
   const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
   const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
-  console.log(jobsFromReduxStore)
+  console.log('jobsFromReduxStore', jobsFromReduxStore)
   console.log('query', query)
   const handleChange = e => {
     setQuery(e.target.value);
@@ -51,9 +51,10 @@ const MainSearch = () => {
         </Col>
         <Col xs={10} className="mx-auto mb-5 text-center">
           {isLoading && <Spinner animation="border" variant="primary" className="mt-4" />}
-          {!isBeginning && !isLoading && jobsFromReduxStore.map(jobData => (
+          {(!isBeginning && !isLoading && (jobsFromReduxStore.length > 0)) && jobsFromReduxStore.map(jobData => (
             <Job key={jobData._id} data={jobData} />
           ))}
+          {(!isBeginning && !isLoading && (jobsFromReduxStore.length === 0)) && <Alert variant="danger">No jobs found for your query {`"${query}"`}</Alert>}
         </Col>
       </Row>
     </Container>
