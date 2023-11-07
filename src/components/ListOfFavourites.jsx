@@ -7,6 +7,7 @@ import { removeFromFavs } from "../redux/actions"
 
 const ListOfFavourites = () => {
     const favs = useSelector(state => state.favourites.content)
+    console.log(favs)
     const dispatch = useDispatch()
     return (
         <Container>

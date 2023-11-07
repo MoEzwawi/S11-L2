@@ -1,36 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Job from "./Job";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addToFavs } from "../redux/actions";
+import { fetchJobs } from "../redux/actions";
+
 
 const CompanySearchResults = () => {
-  const [jobs, setJobs] = useState([]);
   const params = useParams();
   const dispatch = useDispatch()
+  const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
+  console.log(jobsFromReduxStore)
 
-  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?company=";
 
   useEffect(() => {
-    getJobs();
+    dispatch(fetchJobs(params.company));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getJobs = async () => {
-    try {
-      const response = await fetch(baseEndpoint + params.company);
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <Container>
@@ -48,7 +37,7 @@ const CompanySearchResults = () => {
           <Button variant="warning" onClick={() => {
             dispatch(addToFavs(params.company))
           }}>Add to favourites</Button>
-          {jobs.map(jobData => (
+          {jobsFromReduxStore.map(jobData => (
             <Job key={jobData._id} data={jobData} />
           ))}
         </Col>

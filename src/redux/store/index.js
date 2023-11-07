@@ -3,10 +3,13 @@ import favsReducer from "../reducers/favsReducer";
 import fetchReducer from "../reducers/fetchReducer";
 
 
-const mainReducer = combineReducers({})
+const mainReducer = combineReducers({
+    favourites: favsReducer,
+    jobs: fetchReducer,
+})
 
 const store = configureStore({
-    reducer: mainReducer,
+    reducer: mainReducer
 })
 
 export default store
