@@ -11,6 +11,7 @@ const MainSearch = () => {
   const [query, setQuery] = useState("");
   const [isBeginning, setIsBeginning] = useState(true);
   const dispatch = useDispatch()
+  const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
   const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
   console.log(jobsFromReduxStore)
   console.log('query', query)
@@ -20,7 +21,7 @@ const MainSearch = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(fetchJobs(query + "&limit=20"))
+    dispatch(fetchJobs(baseEndpoint, query + "&limit=20"))
     setIsBeginning(false)
   };
 

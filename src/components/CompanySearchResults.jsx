@@ -11,12 +11,14 @@ import { fetchJobs } from "../redux/actions";
 const CompanySearchResults = () => {
   const params = useParams();
   const dispatch = useDispatch()
+  const baseEndpoint =
+    'https://strive-benchmark.herokuapp.com/api/jobs?company='
   const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
   console.log(jobsFromReduxStore)
 
 
   useEffect(() => {
-    dispatch(fetchJobs(params.company));
+    dispatch(fetchJobs(baseEndpoint, params.company));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

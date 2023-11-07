@@ -17,11 +17,10 @@ export const removeFromFavs = (company) => {
     }
 }
 
-export const fetchJobs = (info) => {
-    const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
+export const fetchJobs = (endpoint, info) => {
     return async (dispatch) => {
         try {
-            const response = await fetch(baseEndpoint + info);
+            const response = await fetch(endpoint + info);
             if (response.ok) {
                 const { data } = await response.json();
                 dispatch({
