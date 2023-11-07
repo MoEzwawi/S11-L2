@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Form, Spinner } from "react-bootstrap";
 import Job from "./Job";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { fetchJobs } from "../redux/actions";
 const MainSearch = () => {
   const [query, setQuery] = useState("");
   const [isBeginning, setIsBeginning] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch()
   const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?search=";
   const jobsFromReduxStore = useSelector(state => state.jobs.jobsList)
@@ -23,7 +24,14 @@ const MainSearch = () => {
     e.preventDefault();
     dispatch(fetchJobs(baseEndpoint, query + "&limit=20"))
     setIsBeginning(false)
+    setIsLoading(true)
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+  }, [jobsFromReduxStore])
 
   return (
     <Container>
@@ -41,8 +49,9 @@ const MainSearch = () => {
             <Form.Control type="search" value={query} onChange={handleChange} placeholder="type and press Enter" />
           </Form>
         </Col>
-        <Col xs={10} className="mx-auto mb-5">
-          {!isBeginning && jobsFromReduxStore.map(jobData => (
+        <Col xs={10} className="mx-auto mb-5 text-center">
+          {isLoading && <Spinner animation="border" variant="primary" className="mt-4" />}
+          {!isBeginning && !isLoading && jobsFromReduxStore.map(jobData => (
             <Job key={jobData._id} data={jobData} />
           ))}
         </Col>
